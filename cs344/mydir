@@ -1,0 +1,17 @@
+total 84
+drwxrwx---. 1 nguyepe2 upg63565  8192 Dec  5 10:22 ./
+drwx--x--x. 1 nguyepe2 upg63565  4096 Dec  1 19:13 ../
+drwx------. 1 root     root       392 Dec  1 12:18 .AppleDouble/
+drwxrwx---. 1 nguyepe2 upg63565   156 Oct 31 21:21 assignment-1/
+drwxrwx---. 1 nguyepe2 upg63565   240 Oct 31 19:42 assignment-2/
+drwxrwx---. 1 nguyepe2 upg63565   228 Nov 20 20:02 assignment-3/
+drwxrwx---. 1 nguyepe2 upg63565   640 Dec  5 10:11 assignment-4/
+-rw-rw----. 1 nguyepe2 upg63565     0 Dec  5 10:22 mydir
+-rw-r-----. 1 nguyepe2 upg63565 12288 Oct 24 11:30 .nguyepe2.adventure.c.swp
+drwxrwx---. 1 nguyepe2 upg63565   180 Oct 31 20:31 python-assignment/
+-rwxrwx---. 1 nguyepe2 upg63565   185 Nov 30 12:58 runstuff
+-rwx------. 1 nguyepe2 upg63565  5734 Nov 28 23:48 temp.c
+-rwx------. 1 nguyepe2 upg63565  4814 Nov 28 23:55 temp enc.c
+-rw-rw----. 1 nguyepe2 upg63565   101 Nov 30 23:27 test
+-rw-rw----. 1 nguyepe2 upg63565   332 Nov 28 18:27 testcipher
+-rw-rw----. 1 nguyepe2 upg63565  7700 Nov 27 23:07 testrun

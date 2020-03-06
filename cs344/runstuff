@@ -1,0 +1,8 @@
+#!/bin/bash
+number=$(($RANDOM % 9999 + 50000))
+otp_enc_d $number &
+otp_dec_d $(($number+1)) &
+otp_enc plaintext4 mykey $number > file
+cat file
+echo ""
+otp_enc file mykey $(($number+1))

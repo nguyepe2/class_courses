@@ -1,0 +1,295 @@
+#!/bin/bash -e
+
+
+#Dims section of script ------
+
+trap "rm -f datafile* d2utmp* thingy* mean* mean2* add1* add2* add3*; exit" INT EXIT #HUP TERM KILL EXIT
+
+function dims() {
+
+datafilepath="datafile$$"
+if [ "$#" -eq 0 ]
+then
+   if [ ! -t 0 ]
+   then
+   cat  > "$datafilepath"
+else
+   echo "bad args" 1>&2
+   exit 1
+fi
+elif [ "$#" -eq 1 ]
+then
+   datafilepath=$1
+fi
+
+
+if [ "$#" -gt 1 ]
+then
+      echo "wrong number of arguments" 1>&2
+      exit 1
+elif [ ! -r $1 ]
+then
+   echo "file does not exist or is unreadable" 1>&2
+   exit 1
+fi
+
+#This line finds the amount of rows in the file
+rows=$(cat $datafilepath | wc -l)
+printf "$rows "
+
+#This line finds the amount of columns in the file
+
+entries=$(cat $datafilepath | wc -w)
+
+#amount of entries divided by amount of rows should equal the amount of columns
+
+cols=`expr $entries / $rows`
+echo $cols
+
+}
+
+#Transpose section of script ------
+
+datafilepath="datafile$$"
+if [ "$#" -eq 0 ]
+then
+   if [ ! -t 0 ]
+   then
+   cat  > "$datafilepath"
+else
+   echo "bad args" 1>&2
+   exit 1
+fi
+elif [ "$#" -eq 1 ]
+then
+   datafilepath=$1
+fi
+
+function transpose() {
+
+  if [ "$#" -gt 1 ]
+  then
+        echo "wrong number of arguments" 1>&2
+        exit 1
+  elif [ ! -r $1 ]
+  then
+     echo "file does not exist or is unreadable" 1>&2
+     exit 1
+  fi
+
+
+rows=$(cat $1 | wc -l)
+entries=$(cat $1 | wc -w)
+cols=`expr $entries / $rows`
+
+for (( i=1; i<=$cols; i++ ))
+do
+   cut -f$i $1 | paste -s       				#grabs a column and pastes it out
+done
+
+}
+
+#Mean section of script ------
+
+datafilepath="datafile$$"
+if [ "$#" -eq 0 ]
+then
+   if [ ! -t 0 ]
+   then
+   cat  > "$datafilepath"
+else
+   echo "bad args" 1>&2
+   exit 1
+fi
+elif [ "$#" -eq 1 ]
+then
+   datafilepath=$1
+fi
+
+function mean() {
+
+  if [ "$#" -gt 1 ]
+  then
+        echo "wrong number of arguments" 1>&2
+        exit 1
+  elif [ ! -r $1 ]
+  then
+     echo "file does not exist or is unreadable" 1>&2
+     exit 1
+  fi
+
+  m3="mean$$"
+  m4="mean2$$"
+rows=$(cat $1 | wc -l)
+entries=$(cat $1 | wc -w)
+cols=`expr $entries / $rows`
+
+for (( i=1; i<=$cols; i++ ))
+do
+
+   line=$(cut -f $i $1)             						#grabs a column from the file
+   echo $line | tr ' ' '\n' > $m3   						#rearranges the column to be a column in the file
+   echo "" >> $m3
+
+   end=`expr $cols`
+   sum=0
+   count=$rows
+   while read num
+   do
+      sum=$(( $num + $sum ))                  					#calculates the sum
+      avg=$(( ($sum + ($count/2)*( ($sum>0)*2-1 )) / $count ))   		#calcuates the average
+   done < $m3
+   if [ $i -eq 1 ]
+   then
+      printf "%s" "$avg" > $m4          					#if first time printing, overwrite file
+      printf "	" >> $m4
+   elif [ $i -eq $end ]
+   then
+      printf "%s" "$avg" >> $m4         					#if file already written to, append to file
+      echo "" >> $m4
+   else
+      printf "%s" "$avg" >> $m4         					#if file already written to, append to file
+      printf "	" >> $m4
+   fi
+done
+cat $m4
+}
+
+#Add section of script ------
+
+function add() {
+  m3="add1$$"
+  m4="add2$$"
+  m5="add3$$"
+rows1=$(cat $1 | wc -l)
+entries1=$(cat $1 | wc -w)
+cols1=`expr $entries1 /  $rows1`
+
+rows2=$(cat $2 | wc -l)
+entries2=$(cat $2 | wc -w)
+cols2=`expr $entries2 / $rows2`
+
+if [ "$#" -ne 2 ]
+then
+      echo "wrong number of arguments" 1>&2
+      exit 1
+elif [ ! -r $1 ] || [ ! -r $2 ]
+then
+   echo "file does not exist or is unreadable" 1>&2
+   exit 1
+fi
+
+
+if [ $rows1 -ne $rows2 ]
+then
+   echo "rows are bad" 1>&2
+   exit 1
+fi
+
+if [ $cols1 -ne $cols2 ]
+then
+   echo "cols are bad" 1>&2
+   exit 1
+fi
+
+i=1
+while read line1 <&3 && read line2 <&4
+do
+ #  sum=0
+   echo $line1 | tr ' ' '\n' > $m3          		#replace spaces with newlines in file
+   echo $line2 | tr ' ' '\n' > $m4
+
+   while read num1 <&3 && read num2 <&4
+   do
+      end=$cols1
+      end2=$cols2
+      sum=$(( $num1 + $num2))             		#calculate sum on nums
+      if [ $i -eq 1 ]
+      then
+	 printf "%s" "$sum" >> $m5
+	 printf "	" >> $m5
+      elif [ $i -eq $end ] || [ $i -eq $end2 ]
+      then
+	 printf "%s" "$sum" >> $m5
+	 echo "" >> $m5                      		#create a newline if necessary
+	 i=0
+      else
+	 printf "%s" "$sum" >> $m5
+	 printf "	" >> $m5
+      fi
+      (( i=$i+1 ))                    			#increment i
+   done 3<$m3 4<$m4
+done 3<$1 4<$2
+   sum=0
+cat $m5
+
+}
+
+#Multiply section of script ------
+
+function multiply() {
+
+  if [ "$#" -ne 2 ]
+  then
+        echo "wrong number of arguments" 1>&2
+        exit 1
+  elif [ ! -r $1 ] || [ ! -r $2 ]
+  then
+     echo "file does not exist or is unreadable" 1>&2
+     exit 1
+  fi
+
+  m1="datafile$$"
+  thingy1="thingy1$$"
+  thingy2="thingy2$$"
+
+rows1=$(cat $1 | wc -l)
+entries1=$(cat $1 | wc -w)
+cols1=`expr $entries1 / $rows1`
+rows2=$(cat $2 | wc -l)
+entries2=$(cat $2 | wc -w)
+cols2=`expr $entries2 / $rows2`
+
+
+if [ $cols1 -ne $rows2 ]
+then
+   echo "incompatiable files" 1>&2
+   exit 1
+fi
+i=1
+
+transpose $1 > $m1              			#rearrange first file to be in a similar
+rows=$(cat $m1 | wc -l)         			#format as second file (makes it easier to work with)
+entries=$(cat $m1 | wc -w)
+cols=`expr $entries / $rows`
+
+for (( i=1; i<=$cols; i++ ))
+do
+  cut -f$i $m1 > $thingy1         			#grab a column from file 1
+  for (( j=1; j<=$cols2; j++))
+  do
+    sum=0
+    cut -f$j $2 > $thingy2        			#grab a column from file 2
+    while read line1 <&3 && read line2 <&4
+    do
+      product=$(( $line1*$line2 ))
+      sum=$(( $sum + $product ))
+    done 3<$thingy1 4<$thingy2
+
+    if [ $j -eq 1 ]
+    then
+      printf "%s\t" $sum        #if file is used for first time, print sum
+    elif [ $j -eq $cols2 ]      #and create a tab
+    then
+      printf "%s\n" $sum        #when file reaches correct position, create
+    else                        #a newline
+      printf "%s\t" $sum
+    fi
+    done
+done
+
+
+}
+
+
+$1 "${@:2}"

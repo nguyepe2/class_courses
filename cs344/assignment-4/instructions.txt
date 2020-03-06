@@ -1,0 +1,21 @@
+otp_enc_d:
+listens on an assigned port 'A' for a connection
+-> (finds a connection) calls accept and spawns child process to do the rest on
+the accepted socket 'B' (different then port 'A' socket/created on accept)
+
+otp_enc_d (child):
+RUN ONLY IF CHILD!!!!!!! (if pid !=????)
+check to make sure it's communicating w/ otp_enc
+after verifying the connection, receive the plain text and key from socket 'B'
+(how do you know which is which?)
+write the ciphertext(encryption algorithm)
+  algorithm:
+    add key to message by corresponding array elements
+    use modulo 27 to handle overflow
+    this results in your final ciphertext
+send the ciphertext to otp_enc via socket 'B'?
+
+!!! make sure to have all errors output to stderr as appropriate as per the
+grading scale AND CONTINUE TO RUN!!!
+
+all programs should use localhost

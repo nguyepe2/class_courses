@@ -1,0 +1,8 @@
+#!/bin/bash
+
+array=( one two three )
+for i in "${array[@]}"
+do
+        #missing line of code
+done
+$1 "${@:2}"
