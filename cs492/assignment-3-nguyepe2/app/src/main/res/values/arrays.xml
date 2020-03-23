@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_weather_units">
+        <item>Fahrenheit</item>
+        <item>Celsius</item>
+        <item>Kelvin</item>
+    </string-array>
+    
+    <string-array name="pref_weather_values">
+        <item>imperial</item>
+        <item>metric</item>
+        <item></item>
+    </string-array>
+</resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ListPreference
+        android:key="@string/pref_sort_key"
+        android:title="@string/pref_sort_title"
+        android:dialogTitle="@string/pref_sort_title"
+        android:entries="@array/pref_weather_units"
+        android:entryValues="@array/pref_weather_values"
+        android:defaultValue="@string/pref_sort_default" />
+
+    <EditTextPreference
+        android:key="@string/pref_location_key"
+        app:title="@string/pref_location_title" />
+</PreferenceScreen>
