@@ -1,0 +1,7 @@
+1. The purpose of having an individual handler funciton is so that the system can distinguish between the different interrupts.
+
+2. I didn't have to do anything in particular to make the softint program behave correctly. If the program triggers interrupt 14 instead of 13, then it could mess with virtual memory.
+
+3. There's a DPL field in the SETGATE call that needs to be set to 3 for BRKPT otherwise it operates at the wrong privilege level.
+
+4. The point of these mechanisms is to prevent user programs from accessing stuff that they're not supposed to.

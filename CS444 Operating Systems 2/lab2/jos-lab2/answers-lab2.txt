@@ -1,0 +1,26 @@
+2.  0xf0000000  |   KERNBASE, Page table for 4MB of memory
+    0xefc00000  |   MMIOLIM, Memory mapped I/O (KSTACKTOP - PTSIZE)
+    0xef800000  |   MMIOBASE, Memory mapped I/O (MMIOLIM - PTSIZE)
+    0xef400000  |   UVPT, User read-only virtual page table
+    0xef000000  |   UPAGES, Read-only copies of the Page structures
+    0x00800000  |   UTEXT, Where user programs generally begin
+    0x00400000  |   UTEMP, Used for temporary page mappings
+
+3. User programs won't be able to read or write the kernel's memory due to
+privilege levels. Kernel programs operate in ring 0, whereas user programs
+operate in ring 3. Programs can't access things in a ring level lower than they
+are, (i.e. ring 3 programs (user programs) can't access ring 0 stuff (kernel
+memory).
+
+4.The maximum amount of physical memory that JOS can support is 256 MB. Because
+KERNBASE starts at f0000000, there are 8 values that can change, 2^8 = 256,
+hence the 256 MB
+
+5. Managing memory required sizeof(PageInfo * npages) = 256 KB,  4 KB for page
+directory, PGSIZE is 4096, so 4096 + 256 + 4 = 4356 KB.
+
+6. We transition to running at an EIP above KERNBASE when we use the instruction
+    jmp *%eax
+It is possible fo us to continue executing at a low EIP because we map virtual
+addresses to physical addresses. The transition is necessary because C code
+expects a high address.
