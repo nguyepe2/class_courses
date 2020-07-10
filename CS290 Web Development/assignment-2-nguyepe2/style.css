@@ -1,0 +1,145 @@
+/*
+ * Add your CSS styles to this file.
+ */
+
+body {
+  background-color: #eeeeee;
+  font-family: 'Roboto';
+}
+
+.navbar {
+  margin: -10px;
+  margin-top: -20px;
+  background-color: #ffffff;
+  height: 25px;
+}
+
+.site-title{
+   background-color:#319df6; 
+   font-family: 'Roboto';
+   font-weight: 100;
+   margin-top: -5px;
+}
+
+
+header h1 {
+   color: #fefefd;
+}
+
+a:link {
+  text-decoration: none;
+  color: black;
+  font-family: 'Roboto';
+  font-weight: 400;
+}
+
+a:hover {
+
+  color: #319df6;
+}
+
+a:active {
+  text-decoration: underline;
+}
+
+
+.navlink {
+  margin-bottom: 5px;
+  padding: 5px;
+}
+
+.navlink a:focus {
+  border-bottom: 3px solid #319df6;
+}
+
+.navitem {
+  display: inline-block;
+  margin-top: 0px;
+}
+
+.navbar-search {
+  float: right;
+  padding-right: 15px;
+}
+
+#navbar-search-input {
+  background-color: #eeeeee;
+  border: none;
+}
+
+#navbar-search-input:focus {
+  background-color: #ffffff;
+  border: none;
+}
+
+button:hover {
+  color: #319df6;
+  cursor: pointer;
+}
+
+#navbar-search-button {
+  background-color: #ffffff;
+  border: none;
+  margin-left: 0px;
+}
+
+.twit-container {
+  background-color: #eeeeee;
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 150px;
+  margin-top: 40px;
+}
+
+.twit {
+  background-color: #ffffff;
+  width:  320px;
+  height: 100px;
+  padding: 10px;
+  margin: 5px;
+  position: relative;
+}
+
+.twit-icon {
+  position: relative;
+  top: 18px;
+  left 5px;
+}
+
+.twit-text {
+  position: relative;
+  top: -20px;
+  left: 20px;
+  text-align: left;
+  font-family: 'Roboto';
+  font-weight: 400;
+  padding 5px;
+}
+
+.twit-attribution a {
+  float: right;
+  font-family: 'Roboto';
+  font-weight: 700;
+}
+
+#create-twit-button {
+  background-color: red;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  float: right;
+  color: white;
+  border: none;
+  position: -webkit-sticky;
+  position: sticky;
+  right: 10px;
+  bottom: 10px;
+  box-shadow: 4px 3px 10px rgba(0, 0, 0, .25);
+}
+
+#create-twit-button:hover {
+  background-color: #319df6;
+  width: 45px;
+  height: 45px;
+}
+
